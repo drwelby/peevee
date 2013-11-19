@@ -1,0 +1,49 @@
+html { height: 100% }
+
+body { height: 100%; margin: 0; padding: 0 }
+
+:focus {
+    outline: 0 none !important;
+}
+
+#map {
+    position:absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right:0px;
+    width: 100%;
+    height: 100%;
+}
+
+#toolbar {
+    position: absolute;
+    z-index: 999;
+    top: 20px;
+    height: 30px;
+    left:200px;
+    right:200px;
+    margin: 0px auto;
+}
+
+.twitter-typeahead {
+    width: 100%;
+    background-color: white;
+}
+
+.tt-hint {
+    display: none;
+}
+
+.glyphicon {
+    font-family: 'Glyphicons Halflings' !important;
+}
+
+#parcel td:first-of-type {
+    padding-right: 10px;
+    font-weight: bold;
+}
+
+#spatial table {
+    width: 100%;
+}
