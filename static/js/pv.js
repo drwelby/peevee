@@ -41,7 +41,7 @@ google.maps.Polygon.prototype.getBounds = function() {
 function initialize () {
     var mapOptions = {
         center: new google.maps.LatLng(40.5, -122.5),
-        zoom: 12,
+        zoom: 11, 
         mapTypeId: google.maps.MapTypeId.HYBRID
     };
     var pvLayer = new google.maps.ImageMapType({

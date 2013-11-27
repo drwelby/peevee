@@ -191,7 +191,7 @@ def search(q, auth=False):
             q = q[1:]
         if '-' in q:
             q = q.replace('-','')
-        apns = Parcels.objects.filter(apn__startswith=q)[:20]
+        apns = Parcels.objects.filter(apn_text__startswith=q)[:20]
     else:
         apns = []
     q = q.lower()

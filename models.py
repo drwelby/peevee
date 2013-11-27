@@ -5,6 +5,8 @@ import json
 
 class Parcels(models.Model):
     apn = models.BigIntegerField(primary_key=True) #this could blow up!
+    apn_text = models.CharField(max_length=25)
+    apn_index = models.CharField(max_length=50)
     geom = models.MultiPolygonField()
     source_name = models.CharField(max_length=255)
     source_id = models.IntegerField()
