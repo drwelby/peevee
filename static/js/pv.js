@@ -74,7 +74,7 @@ function initialize () {
     });
     
     map.overlayMapTypes.push(new google.maps.ImageMapType({
-        getTileUrl: genTileUrl('pv:merged'),
+        getTileUrl: genTileUrl('enplan:parcels'),
         tileSize: new google.maps.Size(256, 256),
         isPng: true,
         minZoom: 15,
