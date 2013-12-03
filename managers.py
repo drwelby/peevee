@@ -18,7 +18,6 @@ class ParcelManager(models.GeoManager):
             power  = power / 1000
             digits = len(match.group(1))
             latest = int(match.group(1))
-            print(latest, known)
         
         if latest == 0:
             # Use the number of known leading zeros to limit the range
