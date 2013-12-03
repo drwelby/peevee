@@ -1,44 +1,93 @@
-html { height: 100% }
-
-body { height: 100%; margin: 0; padding: 0 }
+body {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
 :focus {
     outline: 0 none !important;
 }
 
 #map {
-    position:absolute;
-    top: 0px;
-    bottom: 0px;
+    position:fixed !important;
+    top: 40px;
     left: 0px;
-    right:0px;
-    width: 100%;
-    height: 100%;
+    right: 0px;
+    bottom: 0px;
 }
 
-#toolbar {
-    position: absolute;
-    z-index: 999;
-    top: 20px;
-    height: 30px;
-    left:200px;
-    right:200px;
-    margin: 0px auto;
+/*** Page Header ***/
+#header {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 40px;
+    
+    font-size: 17pt;
+    line-height: 40px;
+    padding: 0px 10px;
+    
+    color: #cccccc;
+    background-color: #000000;
+    /*background-image: linear-gradient(to bottom, #222222, #000000);*/
 }
 
 .twitter-typeahead {
+    float: right;
+    height: 28px;
+    margin: 6px 0px;
+    padding: 0px;
+    width: 70%;
+}
+
+#header input, #header > .button {
+    display: inline-block;
+    float: right;
+    
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    
+    height: 28px;
+    line-height: 26px;
+    
+    border: 1px solid #000000;
+}
+
+#header #searchbox {
     width: 100%;
-    background-color: white;
+    margin: 0px;
+    background-color: #ffffff !important;
+    background-image: linear-gradient(to bottom, #eeeeee, #ffffff, #ffffff);
+    border-right: none;
+    padding-left: 5px;
+}
+
+#header > .button {
+    background-color: #dddddd;
+    background-image: linear-gradient(to bottom, #dddddd, #666666);
+    margin: 6px 0px;
+    overflow: hidden;
+    padding: 2px;
+    width: 28px;
+    
+    text-align: center;
+	vertical-align: center;
+}
+
+#header > .button:hover {
+    background-image: linear-gradient(to bottom, #ffffdd, #555555);
+}
+
+#header #help-tool {
+    margin-left: 5px;
 }
 
 .tt-hint {
-    display: none;
+    display: none !important;
 }
 
-.glyphicon {
-    font-family: 'Glyphicons Halflings' !important;
-}
-
+/*** Info Popup ***/
 #parcel td:first-of-type {
     padding-right: 10px;
     font-weight: bold;
@@ -46,4 +95,113 @@ body { height: 100%; margin: 0; padding: 0 }
 
 #spatial table {
     width: 100%;
+}
+
+td.empty {
+	color: #808080;
+}
+
+/*** Typeahead ***/
+.tt-dropdown-menu {
+	background-color: #ffffff;
+	border-top: 1px dotted #cccccc;
+	box-shadow: 0px 5px 5px #000000;
+	color: #808080;
+	
+	font-size: 12pt;
+	line-height: 26px;
+	
+	width: 100%;
+	margin-top: -1px;
+	margin-left: 1px;
+	/*padding: 0px 1px;*/
+	
+	max-height: 300px;
+	overflow: auto;
+}
+
+.tt-suggestion {
+    padding-left: 5px;
+}
+
+.tt-suggestion:hover {
+    background-color: #ffffbb;
+}
+
+.match-apn     .hint-apn   {font-weight: bold;}
+.match-address .hint-addr  {font-weight: bold;}
+.match-name    .hint-owner {font-weight: bold;}
+
+/*** Info Popup ***/
+#overlay {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 999;
+    
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#info-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    
+    width: 600px;
+    height: 400px;
+    
+    margin-top: -200px;
+    margin-left: -300px;
+    
+    z-index: 1000;
+    
+    background-color: #ffffff;
+    box-shadow: 0px 0px 20px 10px #000000;
+    padding: 20px;
+}
+
+#info-window p {
+    color: #444444;
+	text-align: justify;
+	margin: 0px;
+	margin-bottom: 10px;
+}
+
+#info-window h3 {
+	margin-bottom: 10px;
+}
+
+#info-left {
+    width: 45%;
+    height: 100%;
+    float: left;
+}
+
+#info-right {
+    width: 45%;
+    height: 100%;
+    float: right;
+}
+
+#info-close {
+    display: block;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    width: 100px;
+    height: 30px;
+    
+    background-color: #222222;
+    background-image: linear-gradient(to bottom, #222222, #000000);
+    border-radius: 5px;
+    color: #dddddd;
+    text-align: center;
+    text-decoration: none;
+    line-height: 30px;
+}
+
+#info-close:hover {
+    background-image: linear-gradient(to bottom, #333322, #000000);
 }

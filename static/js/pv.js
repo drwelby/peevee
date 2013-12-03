@@ -2,27 +2,36 @@ var parcels = {};
 var map;
 
 var infotemplate = Hogan.compile($('#tabcontent').html(), {delimiters: '[[ ]]'});
+var linetemplate = '\
+<div class="match-{{match}}">\
+    <span class="hint-apn">{{apn}}</span>\
+    -\
+    <span class="hint-county">{{county}}</span>\
+    -\
+    {{#saddr1}}\
+    <span class="hint-addr">{{saddr1}} {{saddr2}}</span>\
+    {{/saddr1}}\
+    {{^saddr1}}\
+    <span class="hint-addr">[no address]</span>\
+    {{/saddr1}}\
+    {{#pro}}\
+    -\
+    <span class="hint-owner">{{owner}}</span>\
+    {{/pro}}\
+</div>\
+';
 
 $('input#searchbox').typeahead({
+    engine: Hogan,
+    limit: 20,
+    minLength: 3,
     name: 'pv',
     remote: 'api/search/?q=%QUERY',
-    limit: 20,
-    engine: Hogan,
-    template: "{{{show}}}"
+    template: linetemplate
 });
 
-function resizeSearch() {
-    $('.tt-dropdown-menu').width($('.twitter-typeahead').width()-3);
-}
-
-$(window).resize(resizeSearch).resize();
-
-$('#searchbox').bind('typeahead:selected', function(obj, datum, name) { 
-    addParcel({apn:datum.apn, county:datum.county});
-});
-
-$('#searchbox').bind('typeahead:autocompleted', function(obj, datum, name) { 
-    setTimeout( function(){ $('#searchbox').val('foo');}, 100);
+$('#searchbox').on('typeahead:selected', function(obj, datum, name) {
+    getParcel({id: datum.id, fips: datum.fips}, {zoom: true});
 });
 
 google.maps.Polygon.prototype.getBounds = function() {
@@ -39,50 +48,103 @@ google.maps.Polygon.prototype.getBounds = function() {
 }
 
 function initialize () {
-    var mapOptions = {
-        center: new google.maps.LatLng(40.5, -122.5),
-        zoom: 11, 
-        mapTypeId: google.maps.MapTypeId.HYBRID
-    };
-    var pvLayer = new google.maps.ImageMapType({
-        getTileUrl: function(ll, z) {
-            return "http://www.geonotice.net:8888/geoserver/gwc/service/gmaps?layers=pv:master&zoom="
-                    + z + "&x=" + ll.x + "&y=" + ll.y + "&format=image/png";
-          },
-          tileSize: new google.maps.Size(256, 256),
-          isPng: true,
-          maxZoom: 20,
-          name: "Parcels",
-          alt: "Parcel Layer"
+    // Why do we have to implement zoom limits manually?
+    function genTileUrl(layer) {
+        return function(ll, z) {
+            if(z < this.minZoom || z > this.maxZoom) {
+                return 'http://www.mapport.net/tiles/blank.png';
+            }
+            var s = ((ll.x + ll.y) % 4) + 1;
+            return (
+                "http://" + s +
+                ".mapport.net:8888/geoserver/gwc/service/gmaps?layers=" + layer +
+                "&zoom=" + z +
+                "&x=" + ll.x +
+                "&y=" + ll.y +
+                "&format=image/png"
+            );
+        }
+    }
+    
+    map = new google.maps.Map(document.getElementById("map"), {
+        draggableCursor: 'default',
+        mapTypeControl: false,
+        mapTypeId: google.maps.MapTypeId.HYBRID,
+        tilt: 0
     });
+    
+    map.overlayMapTypes.push(new google.maps.ImageMapType({
+        getTileUrl: genTileUrl('pv:merged'),
+        tileSize: new google.maps.Size(256, 256),
+        isPng: true,
+        minZoom: 15,
+        maxZoom: 20,
+        name: "Parcels",
+        alt: "Parcel Layer"
+    }));
+    
+    map.overlayMapTypes.push(new google.maps.ImageMapType({
+        getTileUrl: genTileUrl('pv:counties'),
+        tileSize: new google.maps.Size(256, 256),
+        isPng: true,
+        maxZoom: 20,
+        name: "Counties",
+        alt: "County Layer"
+    }));
+    
+    map.overlayMapTypes.push(new google.maps.ImageMapType({
+        getTileUrl: genTileUrl('pv:cities'),
+        tileSize: new google.maps.Size(256, 256),
+        isPng: true,
+        minZoom: 10,
+        maxZoom: 20,
+        name: "Cities",
+        alt: "City Layer"
+    }));
 
-    map = new google.maps.Map(document.getElementById("map"),mapOptions);
-    map.overlayMapTypes.push(pvLayer);
-    google.maps.event.addListener(map, 'click', addParcel);
+    google.maps.event.addListener(map, 'click', function(event) {
+        getParcel({
+            lat: event.latLng.lat(),
+            lon: event.latLng.lng()
+        });
+    });
+    
+    $('#searchbox').on('focus', function(event) {
+    	$(this).select();
+    });
+    
+    $('#find-tool').on('click', function(event) {
+    	$('#searchbox').focus();
+    	event.preventDefault();
+    });
+    
+    $('#help-tool').on('click', function(event) {
+    	$('#overlay').show();
+    	$('#info-window').show();
+    	event.preventDefault();
+    });
+    
+    $('#info-close').on('click', function(event) {
+        $('#overlay').hide();
+    	$('#info-window').hide();
+    	event.preventDefault();
+    });
+    
+    // Zoom to maximum extent
+    var bounds = new google.maps.LatLngBounds();
+    bounds.extend(new google.maps.LatLng(extent[1], extent[0]));
+    bounds.extend(new google.maps.LatLng(extent[3], extent[2]));
+    map.fitBounds(bounds);
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
-function addParcel(event) {
-    url = 'api/parcel/';
-    if (event.latLng) {
-        data = {
-            lat: event.latLng.lat(),
-            lon: event.latLng.lng()
-        };
-    } else if (event.apn) {
-        data = {
-            apn: event.apn,
-            county: event.county
-        };
-    } else return;
-
-    $.ajax(
-        url,  {
+function getParcel(data, options) {
+    $.ajax('api/parcel/', {
         data : data,
         success : function(resp, status, xhr) {
-            drawParcel(resp);
-             }
-        });
+            addParcel(resp, options);
+        }
+    });
 }
 var parcelOptions = {
     "strokeColor": "#FF0000",
@@ -92,42 +154,64 @@ var parcelOptions = {
 }
 
 function getExtra(source) {
-    if (source=='shastaco') { return 'Extra Shasta Stuff'}
+	return '';
+    //if (source=='shastaco') { return 'Extra Shasta Stuff'}
 }
 
-function drawParcel(data) {
-    props = data.properties
-    var apn = props.apn;
-    var center  = data.properties.marker;
-    if (parcels[apn]) {return}
-    parcels[apn] = {};
-    var myLatlng = new google.maps.LatLng(center.lat, center.lon);
-    var marker = new google.maps.Marker({
-            position: myLatlng,
-            title: "" + apn
-    });
-    marker.setMap(map);
+function addParcel(data, options) {
+    
+    options = options || {};
+    
+    var props  = data.properties;
+    var apn    = data.properties.apn;
+    var center = data.properties.marker;
+    
+    if(parcels[apn]) {
+        //TODO: Zoom to it, too...
+        var infowindow = parcels[apn].popup;
+        if(!infowindow.getMap()) infowindow.open(map);
+        return;
+    }
+    
     var infowindow = new google.maps.InfoWindow({
-        content: infotemplate.render({data:props, extra:getExtra(props.source_name)})
+        content:  infotemplate.render({data:props, extra:getExtra(props.source_name)}),
+        position: new google.maps.LatLng(center.lat, center.lon)
     });
-    google.maps.event.addListener(marker, 'click', function() {
-        infowindow.open(map, marker);
-    });
-    parcels[apn][0] = marker;
-    polys = new GeoJSON(data, parcelOptions);
-    $.each(polys, function(index, poly){
-        parcels[apn][index+1] = poly;
+    
+    infowindow.open(map);
+    
+    removeAllParcels();
+    parcels[apn] = new GeoJSON(data, parcelOptions);
+    parcels[apn].popup = infowindow;
+    
+    $.each(parcels[apn], function(index, poly) {
         poly.setMap(map);
+        google.maps.event.addListener(poly, 'click', function() {
+            // Undocumented hack to check if the window is already open.
+            // Needed, unfortunately, to prevent flickering.
+            if(!infowindow.getMap()) infowindow.open(map);
+        });
     });
-    if (data.properties.zoom) {
-        map.fitBounds(parcels[apn][1].getBounds());
+    
+    if(options.zoom) {
+        map.fitBounds(parcels[apn][0].getBounds());
         map.setZoom(Math.min(17, map.getZoom()-1));
     }
 }
 
 function removeParcel(apn) {
-    $.each(parcels[apn], function(index,obj) {
-        obj.setMap(null);
-    });
+	var parcel = parcels[apn];
+    for(var i = 0; i < parcel.length; ++i) {
+    	parcel[i].setMap(null);
+    }
+    
+    parcel.popup.close();
+    //TODO:  Does the popup need to be deleted?
     delete(parcels[apn]);
+}
+
+function removeAllParcels() {
+	for(apn in parcels) {
+		removeParcel(apn);
+	}
 }

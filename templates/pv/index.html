@@ -5,9 +5,9 @@
     <title>ENPLAN Parcel Viewer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" media="screen">
+    <!--link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" media="screen"-->
     <link href="{% static "css/pv.css" %}" rel="stylesheet" media="screen">
-    <link href="{% static "css/typeahead.js-bootstrap.css" %}" rel="stylesheet" media="screen">
+    <!--link href="{% static "css/typeahead.js-bootstrap.css" %}" rel="stylesheet" media="screen"-->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -17,41 +17,69 @@
     <![endif]-->
   </head>
   <body>
-    <div id='map'></div>
-    <div id='toolbar'>
-        <div class="input-group">
-            <span class="input-group-addon">Search:</span>
-            <input id='searchbox' type="text" class="form-control" placeholder="APN or Address">
-            <span class="input-group-addon"> <span class="glyphicon glyphicon-info-sign"> </span> </span>
-        </div>
+    <div id="header">
+        ENPLAN Parcel Viewer
+        <a id="help-tool" href="#" class="button" title="About Parcel Viewer"><img src="{% static 'img/help.png' %}" /></a>
+        <a id="find-tool" href="#" class="button" title="Search"><img src="{% static 'img/search.png' %}" /></a>
+        <input id="searchbox" type="text" class="form-control" placeholder="Search by APN or Address">
     </div>
+    <div id='map'></div>
+    <div id="overlay" style="display:none"></div>
+    <div id="info-window" style="display:none">
+        <div id="info-left">
+            <h3>Using Parcel Viewer</h3>
+            <p>Click anywhere within a county boundary to see information for that parcel.  Parcel boundaries won't show up until you've zoomed in - they look really messy otherwise - but you can always click for information.</p>
+            <p>Know the address or APN of the parcel you want?  Just start typing it into the search bar, and we'll find it for you.</p>
+            <p>And that's really all there is to it.  Enjoy using parcel viewer!</p>
+        </div>
+        <div id="info-right">
+            <h3>Terms of Use</h3>
+            <p>Parcel boundaries and ownership information were acquired from their respective counties.  ENPLAN is not responsible for that content, and makes no guarantees regarding their accuracy.</p>
+            <p>Parcel Viewer uses Google Maps to display parcel boundaries.  This is subject to the relevant <a href="http://www.google.com/intl/en-US/help/terms_maps.html" target="_blank">Terms of Use</a>.</p>
+        </div>
+        <a id="info-close" href="#">Close</a>
+    </div>
+    <script type="text/javascript">
+        var extent = {{ extent }};
+    </script>
     <script type='bogus' id='tabcontent'>
         <div id="content">
-            <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+            <!--<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
                 <li class="active"><a href="#parcel" data-toggle="tab">Parcel Data</a></li>
                 <li><a href="#spatial" data-toggle="tab">Spatial Data</a></li>
                 <li><a href="#share" data-toggle="tab">Share</a></li>
-            </ul>
+            </ul>-->
             <div id="my-tab-content" class="tab-content">
                 <div class="tab-pane active" id="parcel">
                     [[#data]]
                     <table>
+                        [[#owner]]
                         <tr><td>Owner</td><td>[[owner]]</td></tr>
+                        [[/owner]]
+                        [[^owner]]
+                        <tr><td>Owner</td><td class="empty">[no data]</td></tr>
+                        [[/owner]]
+                        [[#saddr1]]
                         <tr><td>Address</td><td>[[saddr1]]</td></tr>
+                        <tr><td></td><td>[[saddr2]]</td></tr>
+                        [[/saddr1]]
+                        [[^saddr1]]
+                        <tr><td>Address</td><td class="empty">[no data]</td></tr>
+                        [[/saddr1]]
                         <tr><td>APN</td><td>[[apn]]</td></tr>
-                        <tr><td>Zoning</td><td>[[zone]]</td></tr>
+                        <!--<tr><td>Zoning</td><td>[[zone]]</td></tr>-->
                     </table>
                     [[/data]]
                     [[extra]]
-                    <hr>
                     [[#data]]
+                    <!--<hr>
                     <a href="#" onclick="removeParcel([[apn]]);return false;">
                         <span class="glyphicon glyphicon-remove-circle"></span>
                         <i>remove this parcel</i>
-                    </a>
+                    </a>-->
                     [[/data]]
                 </div>
-                <div class="tab-pane" id="spatial">
+                <!--<div class="tab-pane" id="spatial">
                     <table>
                         <tr>
                             <th>Name</th>
@@ -74,7 +102,7 @@
                 <div class="tab-pane" id="share">
                     <h1>Share</h1>
                     <p>share share share share share</p>
-                </div>
+                </div>-->
             </div>
         </div>
     </script>
