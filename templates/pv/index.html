@@ -4,6 +4,7 @@
   <head>
     <title>ENPLAN Parcel Viewer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static "css/normalize-2.1.3.css" %}" rel="stylesheet" media="screen">
     <link href="{% static "css/pv.css" %}" rel="stylesheet" media="screen">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -39,67 +40,25 @@
         var extent = {{ extent }};
     </script>
     <script type='bogus' id='tabcontent'>
-        <div id="content">
-            <!--<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                <li class="active"><a href="#parcel" data-toggle="tab">Parcel Data</a></li>
-                <li><a href="#spatial" data-toggle="tab">Spatial Data</a></li>
-                <li><a href="#share" data-toggle="tab">Share</a></li>
-            </ul>-->
-            <div id="my-tab-content" class="tab-content">
-                <div class="tab-pane active" id="parcel">
-                    [[#data]]
-                    <table>
-                        [[#owner]]
-                        <tr><td>Owner</td><td>[[owner]]</td></tr>
-                        [[/owner]]
-                        [[^owner]]
-                        <tr><td>Owner</td><td class="empty">[no data]</td></tr>
-                        [[/owner]]
-                        [[#saddr1]]
-                        <tr><td>Address</td><td>[[saddr1]]</td></tr>
-                        <tr><td></td><td>[[saddr2]]</td></tr>
-                        [[/saddr1]]
-                        [[^saddr1]]
-                        <tr><td>Address</td><td class="empty">[no data]</td></tr>
-                        [[/saddr1]]
-                        <tr><td>APN</td><td>[[apn]]</td></tr>
-                        <!--<tr><td>Zoning</td><td>[[zone]]</td></tr>-->
-                    </table>
-                    [[/data]]
-                    [[extra]]
-                    [[#data]]
-                    <!--<hr>
-                    <a href="#" onclick="removeParcel([[apn]]);return false;">
-                        <span class="glyphicon glyphicon-remove-circle"></span>
-                        <i>remove this parcel</i>
-                    </a>-->
-                    [[/data]]
-                </div>
-                <!--<div class="tab-pane" id="spatial">
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>Resolution</th>
-                        </tr>
-                        [[#data]]
-                            [[#coverages]]
-                            <tr>
-                                [[#properties]]
-                                <td>[[name]]</td>
-                                <td>[[acqdate]]</td>
-                                <td>[[resinches]]"</td>
-                                [[/properties]]
-                            </tr>
-                            [[/coverages]]
-                        [[/data]]
-                    </table>
-                </div>
-                <div class="tab-pane" id="share">
-                    <h1>Share</h1>
-                    <p>share share share share share</p>
-                </div>-->
-            </div>
+        <div class="popup-content">
+        [[#data]]
+        <table>
+            [[#owner]]
+            <tr><th>Owner</th><td>[[owner]]</td></tr>
+            [[/owner]]
+            [[^owner]]
+            <tr><th>Owner</th><td class="empty">[no data]</td></tr>
+            [[/owner]]
+            [[#saddr1]]
+            <tr><th>Address</th><td>[[saddr1]]</td></tr>
+            <tr><th></th><td>[[saddr2]]</td></tr>
+            [[/saddr1]]
+            [[^saddr1]]
+            <tr><th>Address</th><td class="empty">[no data]</td></tr>
+            [[/saddr1]]
+            <tr><th>APN</th><td>[[apn]]</td></tr>
+        </table>
+        [[/data]]
         </div>
     </script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

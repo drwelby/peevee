@@ -61,6 +61,9 @@ body {
     background-image: linear-gradient(to bottom, #eeeeee, #ffffff, #ffffff);
     border-right: none;
     padding-left: 5px;
+    
+    color: #000000;
+    font-size: 12pt;
 }
 
 #header > .button {
@@ -88,13 +91,10 @@ body {
 }
 
 /*** Info Popup ***/
-#parcel td:first-of-type {
+th {
+    color: #000000;
     padding-right: 10px;
-    font-weight: bold;
-}
-
-#spatial table {
-    width: 100%;
+    text-align: left;
 }
 
 td.empty {
@@ -204,4 +204,9 @@ td.empty {
 
 #info-close:hover {
     background-image: linear-gradient(to bottom, #333322, #000000);
+}
+
+/*** Stupid Finicky Pop-Ups ***/
+.popup-content {
+	white-space: nowrap;
 }
