@@ -26,11 +26,17 @@ body {
     
     font-size: 17pt;
     line-height: 40px;
-    padding: 0px 10px;
+    padding: 0px 5px;
     
     color: #cccccc;
     background-color: #000000;
-    /*background-image: linear-gradient(to bottom, #222222, #000000);*/
+}
+
+#enplan {
+	background-color: #2A7B8B;
+	color: #ffffff;
+	padding: 0px 5px;
+	text-decoration: none;
 }
 
 .twitter-typeahead {
@@ -68,7 +74,6 @@ body {
 
 #header > .button {
     background-color: #dddddd;
-    background-image: linear-gradient(to bottom, #dddddd, #666666);
     margin: 6px 0px;
     overflow: hidden;
     padding: 2px;
@@ -79,7 +84,7 @@ body {
 }
 
 #header > .button:hover {
-    background-image: linear-gradient(to bottom, #ffffdd, #555555);
+    background-image: linear-gradient(to bottom, #ffffdd, #dddddd);
 }
 
 #header #help-tool {
@@ -193,17 +198,17 @@ td.empty {
     width: 100px;
     height: 30px;
     
-    background-color: #222222;
-    background-image: linear-gradient(to bottom, #222222, #000000);
+    background-color: #dddddd;
+    border: 1px solid #cccccc;
     border-radius: 5px;
-    color: #dddddd;
+    color: #000000;
     text-align: center;
     text-decoration: none;
     line-height: 30px;
 }
 
 #info-close:hover {
-    background-image: linear-gradient(to bottom, #333322, #000000);
+    background-image: linear-gradient(to bottom, #ffffbb, #dddddd);
 }
 
 /*** Stupid Finicky Pop-Ups ***/
