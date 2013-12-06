@@ -11,6 +11,31 @@ import re
 
 RE_APN = re.compile('^(\d{1,3}-?){1,4}$')
 
+class Benchmark_ADDRSEARCH():
+	def setUp(self):
+		self.queries = list('' + (random() % 1000) + ' ' + chr(random() % 26 + 65) for x in range(1000))
+		
+	def test_icontains(self):
+		for q in query:
+			parcel = Parcel.objects.filter(saddr1__contains = q).get()
+	
+	def test_startswith(self):
+		for q in query:
+			parcel = Parcel.objects.filter(saddr1__startswith = q).get()
+	
+	def fulltext(self):
+		idx = "to_tsvector('english', saddr1 || ' ' || saddr2)"
+		for q in query:
+			parcel = Parcel.objects.extra(
+				select   = {'rank': 'ts_rank_cd(' + idx + ', plainto_tsquery(%s))'},
+				where    = [idx + ' @@ plainto_tsquery(%s)'],
+				order_by = '-rank',
+				params   = [q]
+			)
+
+def bench(request):
+	benchmark.main(Benchmark_ADDRSEARCH)
+
 def index(request):
     extent = County.objects.transform(4326).extent()
     return render(request, 'pv/index.html', {
