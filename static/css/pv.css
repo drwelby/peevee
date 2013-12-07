@@ -32,7 +32,6 @@ body {
     background-color: #000000;
     font-size: 17pt;
     font-weight: bold;
-    font-variant: small-caps;
 }
 
 h1 {
@@ -115,7 +114,7 @@ h1 > .button {
 }
 
 h1 > .button:hover {
-    background-image: linear-gradient(to bottom, #ffffdd, #dddddd);
+    background-color: #aaaaaa;
 }
 
 h1 #help-tool {
@@ -168,7 +167,6 @@ td.empty {
 	
 	width: 100%;
 	margin-top: -1px;
-	/*padding: 0px 1px;*/
 	
 	max-height: 300px;
 	overflow: auto;
@@ -179,12 +177,12 @@ td.empty {
 }
 
 .tt-suggestion:hover {
-    background-color: #ffffbb;
+    background-color: #f0f0f0;
 }
 
-.match-apn     .hint-apn   {font-weight: bold;}
-.match-address .hint-addr  {font-weight: bold;}
-.match-name    .hint-owner {font-weight: bold;}
+.match-apn     .hint-apn   {color: #404040;}
+.match-address .hint-addr  {color: #404040;}
+.match-name    .hint-owner {color: #404040;}
 
 /*** Info Popup ***/
 #overlay {
