@@ -14,17 +14,29 @@
     <![endif]-->
   </head>
   <body>
-  	<h1>
-  		<a id="enplan" href="http://www.enplan.com">ENPLAN</a>
-  		Parcel Viewer
-  		<a id="help-tool" href="#" class="button" title="About Parcel Viewer"><img src="{% static 'img/help.png' %}" /></a>
-  	</h1>
     <div id='map'></div>
-    <div id="header">
-        <input id="searchbox" type="text" class="form-control" placeholder="Search by address or assessor's parcel number.">
-    </div>
+	<div id="header1" class="header">
+		<a id="enplan" href="http://www.enplan.com">ENPLAN</a>
+		<div id="links">
+	  		<a id="share-tool" href="#">Share</a> &bull;
+			<a id="zoom-tool" href="#">Zoom to Selection</a> &bull;
+			<a id="help-tool" href="#">About PV</a> &bull;
+			(530) 221-0440 &bull;
+			<a href="mailto:gisteam@enplan.com">gisteam@enplan.com</a>
+  		</div>
+	</div>
+	<div id="header2" class="header">
+		<h1>Parcel Viewer</h1>
+		<input id="searchbox" type="text" class="form-control" placeholder="Search by address or assessor parcel number.">
+	</div>
     <div id="overlay" style="display:none"></div>
-    <div id="info-window" style="display:none">
+    <div id="share-window" class="window" style="display:none">
+    	<h3>Share this View</h3>
+    	<p>Just send someone else the link below.</p>
+    	<a id="share-url"></a>
+    	<a class="close-window" href="#">Close</a>
+    </div>
+    <div id="info-window" class="window" style="display:none">
         <div id="info-left">
             <h3>Using Parcel Viewer</h3>
             <p>Click anywhere within a county boundary to see information for that parcel.  Parcel boundaries won't show up until you've zoomed in - they look really messy otherwise - but you can always click for information.</p>
@@ -36,7 +48,7 @@
             <p>Parcel boundaries and ownership information were acquired from their respective counties.  ENPLAN is not responsible for that content, and makes no guarantees regarding their accuracy.</p>
             <p>Parcel Viewer uses Google Maps to display parcel boundaries.  This is subject to the relevant <a href="http://www.google.com/intl/en-US/help/terms_maps.html" target="_blank">Terms of Use</a>.</p>
         </div>
-        <a id="info-close" href="#">Close</a>
+        <a class="close-window" href="#">Close</a>
     </div>
     <script type="text/javascript">
         var extent = {{ extent }};

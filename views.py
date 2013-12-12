@@ -9,32 +9,69 @@ from peevee.utils import hasKeys
 import json
 import re
 
+from django.db import connection
+import random
+import time
+
 RE_APN = re.compile('^(\d{1,3}-?){1,4}$')
 
-class Benchmark_ADDRSEARCH():
-	def setUp(self):
-		self.queries = list('' + (random() % 1000) + ' ' + chr(random() % 26 + 65) for x in range(1000))
-		
-	def test_icontains(self):
-		for q in query:
-			parcel = Parcel.objects.filter(saddr1__contains = q).get()
-	
-	def test_startswith(self):
-		for q in query:
-			parcel = Parcel.objects.filter(saddr1__startswith = q).get()
-	
-	def fulltext(self):
-		idx = "to_tsvector('english', saddr1 || ' ' || saddr2)"
-		for q in query:
-			parcel = Parcel.objects.extra(
-				select   = {'rank': 'ts_rank_cd(' + idx + ', plainto_tsquery(%s))'},
-				where    = [idx + ' @@ plainto_tsquery(%s)'],
-				order_by = '-rank',
-				params   = [q]
-			)
-
 def bench(request):
-	benchmark.main(Benchmark_ADDRSEARCH)
+	queries = list(str(random.randint(0, 1000)) + ' ' + chr(random.randint(65, 90)) for x in range(100000))
+	query = None
+	sqls = []
+	
+	start = time.time()
+	for q in queries:
+		query = Parcel.objects.raw().filter(saddr1__contains = q)
+		parcel = query.all()
+	print("%-20s %12.6fs" % ('contains', time.time() - start))
+	
+	sqls.append(query.query)
+	
+	start = time.time()
+	for q in queries:
+		query = Parcel.objects.raw().filter(saddr1__startswith = q).all()
+		parcel = query.all()
+	print("%-20s %12.6fs" % ('startswith', time.time() - start))
+	sqls.append(query.query)
+	
+	start = time.time()
+	for q in queries:
+		query = Parcel.objects.raw().extra(
+			where    = ['addr1 LIKE %s%%'],
+			params   = [q]
+		)
+		parcel = query.all()
+	print("%-20s %12.6fs" % ('startswith2', time.time() - start))
+	sqls.append(query.query)
+	
+	idx = "to_tsvector('english', saddr1 || ' ' || saddr2)"
+	start = time.time()
+	for q in queries:
+		query = Parcel.objects.raw().extra(
+			where    = [idx + ' @@ plainto_tsquery(%s)'],
+			params   = [q]
+		)
+		parcel = query.all()
+	print("%-20s %12.6fs" % ('fulltext', time.time() - start))
+	sqls.append(query.query)
+	
+	idx = "to_tsvector('english', saddr1)"
+	start = time.time()
+	for q in queries:
+		query = Parcel.objects.raw().extra(
+			where    = [idx + ' @@ plainto_tsquery(%s)'],
+			params   = [q]
+		)
+		parcel = query.all()
+	print("%-20s %12.6fs" % ('fulltext2', time.time() - start))
+	sqls.append(query.query)
+	
+	print(str(sqls[0]))
+	print(str(sqls[1]))
+	print(str(sqls[2]))
+	print(str(sqls[3]))
+	print(str(sqls[4]))
 
 def index(request):
     extent = County.objects.transform(4326).extent()

@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     url(r'^api/parcel/$', 'peevee.views.parcel_request', name='getparcel'),
     url(r'^api/zoning/$', 'peevee.views.zoning_request', name='getzoning'),
     url(r'^api/search/$', 'peevee.views.search_request', name='search'),
-
+    url(r'^api/bench/$', 'peevee.views.bench', name='bench'),
     # url(r'^masterblaster/', include('masterblaster.foo.urls')),
 
 )

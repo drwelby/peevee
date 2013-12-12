@@ -50,5 +50,8 @@ class ParcelManager(models.GeoManager):
     def get_query_set(self):
         # Include the county by default - saves a bunch of queries later
         return super(ParcelManager, self).get_query_set().select_related('county')
+        
+    def raw(self):
+        return super(ParcelManager, self).get_query_set()
 
 

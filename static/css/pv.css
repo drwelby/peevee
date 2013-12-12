@@ -17,67 +17,87 @@ body {
 }
 
 /*** Page Header ***/
-#header {
-    position: fixed;
-    top: 34px;
-    left: 0px;
-    right: 0px;
-    height: 40px;
-    
-    line-height: 34px;
-    padding: 0px 5px;
-    text-align: center;
-    
-    color: #cccccc;
-    background-color: #000000;
-    font-size: 17pt;
-    font-weight: bold;
-}
-
-h1 {
-    position: fixed;
-    top: 0px;
+.header {
     left: 0px;
     right: 0px;
     height: 34px;
+    position: fixed;
     
-    line-height: 40px;
-    margin: 0px;
+    line-height: 34px;
     padding: 0px 5px;
-    text-align: center;
     
-    color: #cccccc;
-    background-color: #000000;
-    font-size: 21pt;
+    color: #dddddd;
+    background-color: #333333;
+    text-align: left;
+}
+
+#header1 {
+	top: 0px;
+}
+
+#header2 {
+	border-bottom: 1px solid #000000;
+	text-align: right;
+	top: 34px;
+}
+
+h1 {
+    font-size: 17pt;
+    font-weight: normal;
+    margin: 0px;
+    padding: 0px;
+    padding-right: 15px;
+    
+    float: left;
+    
+    height: 28px;
+    line-height: 28px;
+}
+
+a {
+	color: #dddddd;
 }
 
 #enplan {
-	color: #cccccc;
+	color: #ffffff;
+	background-color: #0C9599;
 	display: inline-block;
-	float: left;
 	font-size: 14px;
-	height: 26px;
-	line-height: 26px;
+	height: 22px;
+	line-height: 23px;
 	margin: 6px 0px;
 	margin-right: 5px;
-	padding: 0px 5px;
+	padding: 0px 8px;
 	text-decoration: none;
 }
 
+#links {
+	float: right;
+}
+
 .twitter-typeahead {
+    display: inline-block !important;
     float: right;
     height: 28px;
-    margin: 6px 0px;
+    margin: 0px 0px;
     padding: 0px;
-    width: 100%;
+    position: relative;
+    width: 70%;
     
     font-weight: normal;
     text-align: left;
 }
 
-#header input, h1 > .button {
-    display: inline-block;
-    float: right;
+#searchbox {
+    margin: 0px;
+    background-color: #ffffff !important;
+    background-image: linear-gradient(to bottom, #eeeeee, #ffffff, #ffffff);
+    border-right: none;
+    padding-left: 5px;
+    width: 100%;
+    
+    color: #000000;
+    font-size: 12pt;
     
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -85,18 +105,6 @@ h1 {
     height: 28px;
     line-height: 28px;
     border: none;
-}
-
-#header #searchbox {
-    width: 100%;
-    margin: 0px;
-    background-color: #ffffff !important;
-    background-image: linear-gradient(to bottom, #eeeeee, #ffffff, #ffffff);
-    border-right: none;
-    padding-left: 5px;
-    
-    color: #000000;
-    font-size: 12pt;
 }
 
 h1 > .button {
@@ -193,7 +201,7 @@ td.empty {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-#info-window {
+.window {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -211,15 +219,19 @@ td.empty {
     padding: 20px;
 }
 
-#info-window p {
+.window p {
     color: #444444;
 	text-align: justify;
 	margin: 0px;
 	margin-bottom: 10px;
 }
 
-#info-window h3 {
+.window h3 {
 	margin-bottom: 10px;
+}
+
+.window a {
+	color: #0C9599;
 }
 
 #info-left {
@@ -234,7 +246,7 @@ td.empty {
     float: right;
 }
 
-#info-close {
+.window .close-window {
     display: block;
     position: absolute;
     right: 20px;
@@ -242,17 +254,12 @@ td.empty {
     width: 100px;
     height: 30px;
     
-    background-color: #dddddd;
-    border: 1px solid #cccccc;
+    background-color: #333333;
     border-radius: 5px;
-    color: #000000;
+    color: #dddddd;
     text-align: center;
     text-decoration: none;
     line-height: 30px;
-}
-
-#info-close:hover {
-    background-image: linear-gradient(to bottom, #ffffbb, #dddddd);
 }
 
 /*** Stupid Finicky Pop-Ups ***/
