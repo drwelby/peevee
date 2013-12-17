@@ -35,17 +35,7 @@ def bench(request):
 	print("%-20s %12.6fs" % ('startswith', time.time() - start))
 	sqls.append(query.query)
 	
-	start = time.time()
-	for q in queries:
-		query = Parcel.objects.raw().extra(
-			where    = ['addr1 LIKE %s%%'],
-			params   = [q]
-		)
-		parcel = query.all()
-	print("%-20s %12.6fs" % ('startswith2', time.time() - start))
-	sqls.append(query.query)
-	
-	idx = "to_tsvector('english', saddr1 || ' ' || saddr2)"
+	idx = "to_tsvector('usps', saddr1 || ' ' || saddr2)"
 	start = time.time()
 	for q in queries:
 		query = Parcel.objects.raw().extra(
@@ -53,25 +43,12 @@ def bench(request):
 			params   = [q]
 		)
 		parcel = query.all()
-	print("%-20s %12.6fs" % ('fulltext', time.time() - start))
-	sqls.append(query.query)
-	
-	idx = "to_tsvector('english', saddr1)"
-	start = time.time()
-	for q in queries:
-		query = Parcel.objects.raw().extra(
-			where    = [idx + ' @@ plainto_tsquery(%s)'],
-			params   = [q]
-		)
-		parcel = query.all()
-	print("%-20s %12.6fs" % ('fulltext2', time.time() - start))
+	print("%-20s %12.6fs" % ('address', time.time() - start))
 	sqls.append(query.query)
 	
 	print(str(sqls[0]))
 	print(str(sqls[1]))
 	print(str(sqls[2]))
-	print(str(sqls[3]))
-	print(str(sqls[4]))
 
 def index(request):
     extent = County.objects.transform(4326).extent()
@@ -158,7 +135,7 @@ def search_request(request):
 
 def search(q, auth=False):
     # Search by address
-    addresses = Parcel.objects.filter(saddr1__icontains = q)[:20]
+    addresses = Parcel.objects.by_address(q)[:20]
     
     # And by APN, if we think it is one
     if re.search(RE_APN, q):

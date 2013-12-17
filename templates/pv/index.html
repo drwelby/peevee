@@ -4,8 +4,9 @@
   <head>
     <title>ENPLAN Parcel Viewer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{% static "css/normalize-2.1.3.css" %}" rel="stylesheet" media="screen">
-    <link href="{% static "css/pv.css" %}" rel="stylesheet" media="screen">
+    <link href="{% static "css/normalize-2.1.3.css" %}" rel="stylesheet" />
+    <link href="{% static "css/pv.css" %}" rel="stylesheet" />
+    <link href="{% static "css/print.css" %}" rel="stylesheet" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -14,7 +15,9 @@
     <![endif]-->
   </head>
   <body>
-    <div id='map'></div>
+	<div id="printwrap">
+	    <div id='map'></div>
+    </div>
 	<div id="header1" class="header">
 		<a id="enplan" href="http://www.enplan.com">ENPLAN</a>
 		<div id="links">
@@ -32,7 +35,7 @@
     <div id="overlay" style="display:none"></div>
     <div id="share-window" class="window" style="display:none">
     	<h3>Share this View</h3>
-    	<p>Just send someone else the link below.</p>
+    	<p>Send anyone else the link below; they'll be able to see the area you're currently looking at, as well as any parcels you have selected.</p>
     	<a id="share-url"></a>
     	<a class="close-window" href="#">Close</a>
     </div>

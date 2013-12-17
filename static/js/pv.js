@@ -26,6 +26,21 @@ var linetemplate = '\
 document.onkeyup   = function(event) {if(event.keyCode == 17) ctrlKey = false;}
 document.onkeydown = function(event) {if(event.keyCode == 17) ctrlKey = true;}
 
+// Print the center of the map.
+// Seems unreasinably complicated...
+function resizeMap() {
+	var w = $('#printwrap').width();
+	var h = $('#printwrap').height();
+	$('#map').css({
+		'width':       '' + w + 'px',
+		'height':      '' + h + 'px',
+		'margin-top':  '-' + h/2 + 'px',
+		'margin-left': '-' + w/2 + 'px'
+	});
+}
+
+window.onresize = resizeMap;
+
 $('input#searchbox').typeahead({
     engine: Hogan,
     limit: 20,
@@ -76,6 +91,8 @@ function initialize () {
             );
         }
     }
+    
+    resizeMap();
     
     map = new google.maps.Map(document.getElementById("map"), {
         draggableCursor: 'default',

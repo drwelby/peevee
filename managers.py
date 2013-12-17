@@ -4,7 +4,13 @@ import re
 
 class ParcelManager(models.GeoManager):
     def by_address(self, address):
-        return self.get_query_set().objects.filter(saddr1__icontains = address)
+#        return self.get_query_set().objects.filter(saddr1__icontains = address)
+        idx = "to_tsvector('english', saddr1 || ' ' || saddr2)"
+        return self.get_query_set().extra(
+            where    = [idx + ' @@ plainto_tsquery(%s)', 'pv.counties.fips = parcels.master.source_fips'],
+            tables   = ['pv"."counties'],
+            params   = [address]
+        )
         
     def by_apn(self, apn):
         power  = 1000000000000 # Multiplier for the current triplet
