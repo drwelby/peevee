@@ -163,7 +163,6 @@ td.empty {
 ::-moz-placeholder {
     /* Firefox 19+ */
     font-size: 10pt;
-    text-align: center;
 }
 
 :-ms-input-placeholder {
