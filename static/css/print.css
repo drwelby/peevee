@@ -1,0 +1,5 @@
+@media print {
+	#header1   {display: none;}
+	#header2   {display: none;}
+	#printwrap {top: 0px;}
+}

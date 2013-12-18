@@ -261,7 +261,7 @@ function addParcel(data, options) {
     }
     
     var infowindow = new google.maps.InfoWindow({
-        content:  infotemplate.render({data:props, extra:getExtra(props.source_name)}),
+        content:  $(infotemplate.render({data:props, extra:getExtra(props.source_name)}))[0],
         position: new google.maps.LatLng(center.lat, center.lon)
     });
     
