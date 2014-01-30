@@ -25,6 +25,7 @@ var linetemplate = '\
 // Google Maps events don't have key info...
 document.onkeyup   = function(event) {if(event.keyCode == 17) ctrlKey = false;}
 document.onkeydown = function(event) {if(event.keyCode == 17) ctrlKey = true;}
+window.onblur      = function(event) {ctrlKey = false;}
 
 // Print the center of the map.
 // Seems unreasinably complicated...
@@ -40,19 +41,6 @@ function resizeMap() {
 }
 
 window.onresize = resizeMap;
-
-$('input#searchbox').typeahead({
-    engine: Hogan,
-    limit: 20,
-    minLength: 3,
-    name: 'pv',
-    remote: 'api/search/?q=%QUERY',
-    template: linetemplate
-});
-
-$('#searchbox').on('typeahead:selected', function(obj, datum, name) {
-    getParcel({id: datum.id, fips: datum.fips}, {zoom: true});
-});
 
 google.maps.Polygon.prototype.getBounds = function() {
     var bounds = new google.maps.LatLngBounds();
@@ -137,10 +125,6 @@ function initialize () {
         });
     });
     
-    $('#searchbox').on('focus', function(event) {
-    	$(this).select();
-    });
-    
     $('#find-tool').on('click', function(event) {
     	$('#searchbox').focus();
     	event.preventDefault();
@@ -158,37 +142,38 @@ function initialize () {
     });
     
     $('#share-tool').on('click', function(event) {
-    	var selected = [];
-    	for(var apn in parcels)
-    	{
-    		var parcel = parcels[apn];
-    		var fips   = parcel.attrs.fips;
-    		var id     = parcel.attrs.id;
-    		var sep    = parcel.popup.getMap()? '+' : '-';
-    		selected.push(fips + sep + id);
-    	}
-    	
-    	var base = window.location.protocol + '//' + window.location.host;
-    	var params = [
-    		'z=' + map.zoom,
-    		'x=' + map.getCenter().lng(),
-    		'y=' + map.getCenter().lat(),
-    		'p=' + selected.join('|')
-    	];
-    	
-    	var url = base + '?' + params.join('&');
-    	$('#share-url').text(url);
-    	$('#share-url').attr('href', url);
-    	
-    	$('#overlay').show();
-    	$('#share-window').show();
     	event.preventDefault();
+    	share();
     });
     
     $('.close-window').on('click', function(event) {
         $('#overlay').hide();
         $(this).closest('.window').hide();
     	event.preventDefault();
+    });
+    
+    $('body').on('keyup', function(event) {
+    	// You're typing?  Sorry!  Never mind...
+    	if($(event.target).is('input')) return;
+    	
+    	switch(event.keyCode)
+    	{
+    	case 27: // Escape
+    		closeAllPopups();
+    		return;
+    	case 46: // Delete
+    		removeAllParcels();
+    		return;
+    	case 70: // F
+    		$('#searchbox').select();
+    		return;
+    	case 83: // S
+    		share();
+			return;
+    	case 90: // Z
+    		zoomToSelection();
+    		return;
+    	}
     });
     
     var z = parseInt(urlParam('z'));
@@ -340,4 +325,31 @@ function zoomToSelection() {
 	if(found) {
 		map.fitBounds(bounds);
 	}
+}
+
+function share() {
+	var selected = [];
+	for(var apn in parcels)
+	{
+		var parcel = parcels[apn];
+		var fips   = parcel.attrs.fips;
+		var id     = parcel.attrs.id;
+		var sep    = parcel.popup.getMap()? '+' : '-';
+		selected.push(fips + sep + id);
+	}
+	
+	var base = window.location.protocol + '//' + window.location.host;
+	var params = [
+		'z=' + map.zoom,
+		'x=' + map.getCenter().lng(),
+		'y=' + map.getCenter().lat(),
+		'p=' + selected.join('|')
+	];
+	
+	var url = base + '?' + params.join('&');
+	$('#share-url').text(url);
+	$('#share-url').attr('href', url);
+	
+	$('#overlay').show();
+	$('#share-window').show();
 }

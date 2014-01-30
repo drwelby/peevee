@@ -84,61 +84,6 @@ a {
 	float: right;
 }
 
-.twitter-typeahead {
-    display: inline-block !important;
-    float: right;
-    height: 28px;
-    margin: 0px 0px;
-    padding: 0px;
-    position: relative;
-    width: 70%;
-    
-    font-weight: normal;
-    text-align: left;
-}
-
-#searchbox {
-    margin: 0px;
-    background-color: #ffffff !important;
-    background-image: linear-gradient(to bottom, #eeeeee, #ffffff, #ffffff);
-    border-right: none;
-    padding-left: 5px;
-    width: 100%;
-    
-    color: #000000;
-    font-size: 12pt;
-    
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    
-    height: 28px;
-    line-height: 28px;
-    border: none;
-}
-
-h1 > .button {
-    background-color: #dddddd;
-    margin: 6px 0px;
-    overflow: hidden;
-    padding: 2px;
-    width: 28px;
-    
-    text-align: center;
-	vertical-align: center;
-}
-
-h1 > .button:hover {
-    background-color: #aaaaaa;
-}
-
-h1 #help-tool {
-    margin-left: 5px;
-}
-
-.tt-hint {
-    display: none !important;
-}
-
 /*** Info Popup ***/
 th {
     color: #000000;
@@ -169,34 +114,6 @@ td.empty {
     font-size: 10pt;
 }
 
-.tt-dropdown-menu {
-	background-color: #ffffff;
-	border-top: 1px dotted #808080;
-	box-shadow: 0px 5px 5px #000000;
-	color: #808080;
-	
-	font-size: 12pt;
-	line-height: 26px;
-	
-	width: 100%;
-	margin-top: -1px;
-	
-	max-height: 300px;
-	overflow: auto;
-}
-
-.tt-suggestion {
-    padding-left: 5px;
-}
-
-.tt-suggestion:hover {
-    background-color: #cccccc;
-}
-
-.match-apn     .hint-apn   {color: #404040;}
-.match-address .hint-addr  {color: #404040;}
-.match-name    .hint-owner {color: #404040;}
-
 /*** Info Popup ***/
 #overlay {
     position: fixed;
@@ -224,17 +141,21 @@ td.empty {
     
     background-color: #ffffff;
     box-shadow: 0px 0px 20px 10px #000000;
+    line-height: normal;
     padding: 20px;
+    text-align: left;
 }
 
 .window p {
     color: #444444;
-	text-align: justify;
+    line-height: 22px;
 	margin: 0px;
 	margin-bottom: 10px;
+	text-align: justify;
 }
 
 .window h3 {
+	color: #000000;
 	margin-bottom: 10px;
 }
 

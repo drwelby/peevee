@@ -130,7 +130,7 @@ def search_request(request):
                 match         = key
             ))
     
-    return HttpResponse(json.dumps(datums), mimetype="application/json")
+    return HttpResponse(json.dumps({'results': datums}), mimetype="application/json")
 
 
 def search(q, auth=False):

@@ -4,12 +4,15 @@ import re
 
 class ParcelManager(models.GeoManager):
     def by_address(self, address):
-#        return self.get_query_set().objects.filter(saddr1__icontains = address)
+        regex     = re.compile('[^ A-Za-z0-9]')
+        query     = regex.sub('', address).strip().split(' ')
+        query[-1] = query[-1] + ':*'
+        
         idx = "to_tsvector('usps', saddr1 || ' ' || saddr2)"
         return self.get_query_set().extra(
-            where    = [idx + ' @@ plainto_tsquery(\'usps\', %s)', 'pv.counties.fips = parcels.master.source_fips'],
+            where    = [idx + ' @@ to_tsquery(\'usps\', %s)', 'pv.counties.fips = parcels.master.source_fips'],
             tables   = ['pv"."counties'],
-            params   = [address]
+            params   = [' & '.join(query)]
         )
         
     def by_apn(self, apn):

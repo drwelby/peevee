@@ -7,6 +7,7 @@
     <link href="{% static "css/normalize-2.1.3.css" %}" rel="stylesheet" />
     <link href="{% static "css/pv.css" %}" rel="stylesheet" />
     <link href="{% static "css/print.css" %}" rel="stylesheet" />
+    <link href="{% static "css/dropdown.css" %}" rel="stylesheet" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -30,7 +31,12 @@
 	</div>
 	<div id="header2" class="header">
 		<h1>Parcel Viewer</h1>
-		<input id="searchbox" type="text" class="form-control" placeholder="Search by address or assessor parcel number.">
+		<div id="dropdown">
+			<input id="searchbox" type="text" class="form-control" placeholder="Search by address or assessor parcel number.">
+			<table id="dropdown-working"><tr><td class="dummy">Searching...</td></tr></table>
+			<table id="dropdown-nothing"><tr><td class="dummy">No parcels match your search.</td></tr></table>
+			<table id="dropdown-problem"><tr><td class="dummy">Server error.  Sorry!</td></tr></table>
+			<table id="dropdown-display"><tbody id="dropdown-container"></tbody></table>
 	</div>
     <div id="overlay" style="display:none"></div>
     <div id="share-window" class="window" style="display:none">
@@ -81,12 +87,24 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{% static "js/jquery-1.10.2.min.js" %}"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{% static "js/bootstrap.min.js" %}"></script>
-    <script src="{% static "js/typeahead.min.js" %}"></script>
+    <!--script src="{% static "js/bootstrap.min.js" %}"></script-->
+    <!--script src="{% static "js/typeahead.min.js" %}"></script-->
     <script src="{% static "js/GeoJSON.js" %}"></script>
     <script src="{% static "js/hogan-2.0.0.js" %}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5Ctp-7ORjw5OX_9hUnYxoVjtoQNvtgEE&sensor=false"></script>
     <script src="{% static "js/pv.js" %}"></script>
+    <script src="{% static "js/dropdown.js" %}"></script>
+    <script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-9249317-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s  = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+    </script>
   </body>
 </html>
 

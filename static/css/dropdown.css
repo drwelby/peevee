@@ -1,0 +1,90 @@
+#dropdown {
+    display: inline-block;
+    float: right;
+    height: 28px;
+    margin: 0px 0px;
+    overflow: visible;
+    padding: 0px;
+    position: relative;
+    width: 70%;
+    
+    font-weight: normal;
+    text-align: left;
+}
+
+#searchbox {
+    margin: 0px;
+    background-color: #ffffff;
+    background-image: linear-gradient(to bottom, #eeeeee, #ffffff, #ffffff);
+    border-right: none;
+    padding-left: 5px;
+    width: 100%;
+    
+    color: #000000;
+    font-size: 12pt;
+    
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    
+    height: 28px;
+    line-height: 28px;
+    border: none;
+}
+
+#dropdown table {
+	background-color: #ffffff;
+	border-top: 1px dotted #808080;
+	color: #808080;
+	display: none;
+	margin-top: 3px;
+	position: absolute;
+	top: 100%;
+	width: 100%;
+	
+	box-shadow: 0px 5px 5px 0px #000000;
+}
+
+#dropdown table .dummy {
+	height: 100px;
+	text-align: center;
+	width: 100%;
+}
+
+#dropdown-display {
+	line-height: 25px;
+	max-height: 300px;
+	overflow: auto;
+}
+
+#dropdown-display tr {
+	cursor: pointer;
+}
+
+#dropdown-display tr.current {
+	background-color: #eeeeee;
+}
+
+#dropdown-display td:first-child {
+	padding-left: 5px;
+}
+
+#dropdown.status-working #dropdown-working {
+	display: table;
+}
+
+#dropdown.status-display #dropdown-display {
+	display: table;
+}
+
+#dropdown.status-nothing #dropdown-nothing {
+	display: table;
+}
+
+#dropdown.status-problem #dropdown-problem {
+	display: table;
+}
+
+.match-apn     .hint-apn   {color: #404040;}
+.match-address .hint-addr  {color: #404040;}
+.match-name    .hint-owner {color: #404040;}
+
