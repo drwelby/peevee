@@ -14,6 +14,17 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-9249317-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s  = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+    </script>
   </head>
   <body>
 	<div id="printwrap">
@@ -94,17 +105,6 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5Ctp-7ORjw5OX_9hUnYxoVjtoQNvtgEE&sensor=false"></script>
     <script src="{% static "js/pv.js" %}"></script>
     <script src="{% static "js/dropdown.js" %}"></script>
-    <script type="text/javascript">
-		var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-9249317-1']);
-		_gaq.push(['_trackPageview']);
-
-		(function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s  = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		})();
-    </script>
   </body>
 </html>
 
