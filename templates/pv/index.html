@@ -36,12 +36,6 @@
         [[/data]]
         </div>
     </script>
-    <script src="{% static "js/jquery-1.10.2.min.js" %}"></script>
-    <script src="{% static "js/GeoJSON.js" %}"></script>
-    <script src="{% static "js/hogan-2.0.0.js" %}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5Ctp-7ORjw5OX_9hUnYxoVjtoQNvtgEE&sensor=false"></script>
-    <script src="{% static "js/pv.js" %}"></script>
-    <script src="{% static "js/dropdown.js" %}"></script>
     <script type="text/javascript">
     	var extent = {{ extent }};
     	
@@ -101,6 +95,12 @@
         </div>
         <a class="close-window" href="#">Close</a>
     </div>
+    <script src="{% static "js/jquery-1.10.2.min.js" %}"></script>
+    <script src="{% static "js/GeoJSON.js" %}"></script>
+    <script src="{% static "js/hogan-2.0.0.js" %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5Ctp-7ORjw5OX_9hUnYxoVjtoQNvtgEE&sensor=false"></script>
+    <script src="{% static "js/pv.js" %}"></script>
+    <script src="{% static "js/dropdown.js" %}"></script>
   </body>
 </html>
 
