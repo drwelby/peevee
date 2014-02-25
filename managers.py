@@ -8,7 +8,8 @@ class ParcelManager(models.GeoManager):
         query     = regex.sub('', address).strip().split(' ')
         query[-1] = query[-1] + ':*'
         
-        idx = "to_tsvector('usps', saddr1 || ' ' || saddr2)"
+        #idx = "to_tsvector('usps', saddr1 || ' ' || saddr2)"
+        idx = "to_tsvector('usps', coalesce(saddr1, '') || ' ' || coalesce(saddr2, ''))"
         return self.get_query_set().extra(
             where    = [idx + ' @@ to_tsquery(\'usps\', %s)', 'pv.counties.fips = parcels.master.source_fips'],
             tables   = ['pv"."counties'],
