@@ -119,10 +119,10 @@ function initialize () {
     }));
 
     google.maps.event.addListener(map, 'click', function(event) {
-        getParcel({
-            lat: event.latLng.lat(),
-            lon: event.latLng.lng()
-        });
+        getParcel(
+        	{'lat': event.latLng.lat(), 'lon': event.latLng.lng()},
+        	{'source': 'By Click'}
+        );
     });
     
     $('#find-tool').on('click', function(event) {
@@ -215,9 +215,12 @@ function getParcel(data, options) {
         data : data,
         success : function(resp, status, xhr) {
             addParcel(resp, options);
-            var id = resp.properties.id;
-            var fips = resp.properties.fips;
-            _gaq.push(['_trackEvent', 'Select', 'By Click', fips + ':' + id]);
+            _gaq.push([
+            	'_trackEvent',
+            	'Select',
+            	options['source'] || 'Unknown',
+            	resp.properties.fips + ':' + resp.properties.id
+            ]);
         }
     });
 }

@@ -46,16 +46,15 @@ function error()
 
 function select(tr)
 {
+	var src = undefined;
+	if(tr.hasClass('match-apn')) src = 'By APN';
+	if(tr.hasClass('match-address')) src = 'By Address';
+	
 	var d = tr.data('datum');
 	$('#searchbox').val(d.saddr1? d.saddr1 + ' ' + (d.saddr2 || '') : d.apn);
-	getParcel({fips: d.fips, id: d.id}, {zoom: true});
+	getParcel({fips: d.fips, id: d.id}, {'zoom': true, 'source': src});
 	$('#dropdown').removeAttr('class');
 	$('#searchbox').blur();
-	
-	var m = 'Unknown';
-	if(tr.hasClass('match-apn')) m = 'By APN';
-	if(tr.hasClass('match-address')) m = 'By Address';
-	_gaq.push(['_trackEvent', 'Select', m, d.fips + ':' + d.id]);
 }
 
 var lastText;
