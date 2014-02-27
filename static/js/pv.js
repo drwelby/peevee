@@ -215,6 +215,9 @@ function getParcel(data, options) {
         data : data,
         success : function(resp, status, xhr) {
             addParcel(resp, options);
+            var id = resp.properties.id;
+            var fips = resp.properties.fips;
+            _gaq.push(['_trackEvent', 'Select', 'By Click', fips + ':' + id]);
         }
     });
 }

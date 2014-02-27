@@ -51,6 +51,11 @@ function select(tr)
 	getParcel({fips: d.fips, id: d.id}, {zoom: true});
 	$('#dropdown').removeAttr('class');
 	$('#searchbox').blur();
+	
+	var m = 'Unknown';
+	if(tr.hasClass('match-apn')) m = 'By APN';
+	if(tr.hasClass('match-addr')) m = 'By Address';
+	_gaq.push(['_trackEvent', 'Select', m, d.fips + ':' + d.id]);
 }
 
 var lastText;
