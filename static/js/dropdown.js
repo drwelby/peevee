@@ -54,7 +54,7 @@ function select(tr)
 	
 	var m = 'Unknown';
 	if(tr.hasClass('match-apn')) m = 'By APN';
-	if(tr.hasClass('match-addr')) m = 'By Address';
+	if(tr.hasClass('match-address')) m = 'By Address';
 	_gaq.push(['_trackEvent', 'Select', m, d.fips + ':' + d.id]);
 }
 
