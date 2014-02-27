@@ -218,8 +218,7 @@ function getParcel(data, options) {
             _gaq.push([
             	'_trackEvent',
             	'Select',
-            	options['source'] || 'Unknown',
-            	resp.properties.fips + ':' + resp.properties.id
+            	options['source'] || 'Unknown'
             ]);
         }
     });
